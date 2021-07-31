@@ -1,13 +1,12 @@
 <?php
- // include function files for this application
+ 
  require_once('bookmark_fns.php');
- //create short variable names
+ 
  $email=$_POST['email'];
  $username=$_POST['username'];
  $passwd=$_POST['passwd'];
  $passwd2=$_POST['passwd2'];
- // start session which may be needed later
- // start it now because it must go before headers
+ 
  session_start();
  try {
  // check forms filled in
@@ -35,7 +34,7 @@ throw new Exception('Your password must be between 6 and 16 characters.
 Please go back and try again.');
  }
  // attempt to register
- // this function can also throw an exception
+
  register($username, $email, $passwd);
  // register session variable
  $_SESSION['valid_user'] = $username;
