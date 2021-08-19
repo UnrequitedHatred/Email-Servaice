@@ -38,3 +38,31 @@ and bm_url='".$url."'")) {
  }
  return true;
 }
+function recommend_urls($valid_user, $popularity = 1) {
+ $conn = db_connect();
+$query = "select bm_URL
+from bookmark
+where username in
+(select distinct(b2.username)
+from bookmark b1, bookmark b2
+where b1.username='".$valid_user."'
+and b1.username != b2.username
+and b1.bm_URL = b2.bm_URL)
+and bm_URL not in
+(select bm_URL
+from bookmark
+where username='".$valid_user."')
+group by bm_url
+having count(bm_url)>".$popularity;
+ if (!($result = $conn->query($query))) {
+ throw new Exception('Could not find any bookmarks to recommend.');
+ }
+ if ($result->num_rows==0) {
+ throw new Exception('Could not find any bookmarks to recommend.');
+ }
+ $urls = array();
+ for ($count=0; $row = $result->fetch_object(); $count++) {
+ $urls[$count] = $row->bm_URL;
+ }
+ return $urls;
+}
