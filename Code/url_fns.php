@@ -29,3 +29,12 @@ where username = '".$username."'");
  }
  return $url_array;
 }
+function delete_bm($user, $url) {
+ $conn = db_connect();
+ if (!$conn->query("delete from bookmark where
+username='".$user."'
+and bm_url='".$url."'")) {
+ throw new Exception('Bookmark could not be deleted');
+ }
+ return true;
+}
