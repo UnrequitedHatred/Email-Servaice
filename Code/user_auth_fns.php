@@ -41,3 +41,20 @@ where username = '".$username."'");
  return true; // changed successfully
  }
 }
+function reset_password($username) {
+ $new_password = get_random_word(6, 13);
+ if($new_password == false) {
+ $new_password = "changeMe!";
+ }
+ $rand_number = rand(0, 999);
+ $new_password .= $rand_number;
+ $conn = db_connect();
+ $result = $conn->query("update user
+set passwd = sha1('".$new_password."')
+where username = '".$username."'");
+ if (!$result) {
+ throw new Exception('Could not change password.');
+ } else {
+ return $new_password; 
+ }
+}
