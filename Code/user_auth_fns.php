@@ -16,3 +16,16 @@ later.');
  }
  return true;
 }
+function check_valid_user() {
+
+ if (isset($_SESSION['valid_user'])) {
+echo "Logged in as ".$_SESSION['valid_user'].".<br>";
+ } else {
+ 
+ do_html_heading('Problem:');
+ echo 'You are not logged in.<br>';
+ do_html_url('login.php', 'Login');
+ do_html_footer();
+ exit;
+ }
+}
