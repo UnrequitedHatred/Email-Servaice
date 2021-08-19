@@ -29,3 +29,15 @@ echo "Logged in as ".$_SESSION['valid_user'].".<br>";
  exit;
  }
 }
+function change_password($username, $old_password, $new_password) {
+ login($username, $old_password);
+ $conn = db_connect();
+ $result = $conn->query("update user
+set passwd = sha1('".$new_password."')
+where username = '".$username."'");
+ if (!$result) {
+ throw new Exception('Password could not be changed.');
+ } else {
+ return true; // changed successfully
+ }
+}
