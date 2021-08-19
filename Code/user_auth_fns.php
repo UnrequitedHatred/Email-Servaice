@@ -58,3 +58,29 @@ where username = '".$username."'");
  return $new_password; 
  }
 }
+function get_random_word($min_length, $max_length) {
+
+ 
+ $word = '';
+
+ $dictionary = '/usr/dict/words'; 
+ $fp = @fopen($dictionary, 'r');
+ if(!$fp) {
+ return false;
+ }
+ $size = filesize($dictionary);
+
+ $rand_location = rand(0, $size);
+ fseek($fp, $rand_location);
+
+ while ((strlen($word) < $min_length) || (strlen($word)>$max_length) ||
+(strstr($word, "'"))) {
+ if (feof($fp)) {
+fseek($fp, 0); // if at end, go to start
+ }
+ $word = fgets($fp, 80); 
+ $word = fgets($fp, 80); 
+ }
+ $word = trim($word); 
+  return $word;
+}
